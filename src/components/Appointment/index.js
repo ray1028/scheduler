@@ -6,6 +6,7 @@ import Show from "../Appointment/Show";
 import useVisualMode from "../../hooks/useVisualMode";
 import Form from "./Form";
 import Status from "./Status";
+import Confirm from "./Confirm";
 
 const axios = require('axios');
 
@@ -16,6 +17,7 @@ const Appointment = props => {
   const SAVE = "SAVE";
 
   const DELETE = "DELETE";
+  const CONFIRM = "CONFIRM";
 
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
@@ -29,17 +31,20 @@ const Appointment = props => {
     back();
   };
 
-  const deleteAppt = () => {
-    props.cancelInterview(props.id);
+  const confirmDeleteAppt = () => {
 
     transition(DELETE);
     axios.delete(`http://localhost:8001/api/appointments/${props.id}`, {
     }).then(resp => {
       if(resp.status >= 200 && resp.status < 300){
-        console.log('successfully updated interview to null');
+        props.cancelInterview(props.id);
         transition(EMPTY);
       }
     }).catch(err => 'something went wrong while deleting interview - ' + err);
+  }
+
+  const deleteAppt = () => {
+    transition(CONFIRM);
   }
 
 
@@ -82,6 +87,12 @@ const Appointment = props => {
       )}  
       {mode === DELETE && (
         <Status message='Deleting'/>
+      )}
+      {mode === CONFIRM && (
+        <Confirm 
+          message={'Are you sure you would like to delete?'} 
+          onCancel={onCancel}
+          onConfirm={confirmDeleteAppt}/>
       )}
     </article>
   );

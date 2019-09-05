@@ -38,10 +38,27 @@ export default function Application(props) {
 
   const cancelInterview = id => {
     const appointment = {
-      ...state.appointments[id]
+      ...state.appointments[id],
+      interview: null
     };
 
-    console.log("in cancel interview", appointment);
+    // this is replacing appointments with one appointment; TERRIBLE MISTAKE
+    // setState({
+    //   ...state.appointments,
+    //   [id]: appointment
+    // });
+
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    setState({
+      ...state,
+      appointments
+    });
+
   };
 
   const setDay = day => setState({ ...state, day });
@@ -55,18 +72,20 @@ export default function Application(props) {
       Promise.resolve(axios.get("http://localhost:8001/api/interviewers"))
     ])
       .then(all => {
+        console.log(all[0]);
         setState(prev => ({
           ...prev,
           days: all[0].data,
           appointments: all[1].data,
           interviewers: all[2].data
         }));
-      })
+      return true;})
       .catch(err => console.log("Error occurs while fetching data ", err));
   }, []);
 
+  // console.log('before i crush');
+  // console.log(state);
   const appointments = getAppointmentsForDay(state, state.day);
-
   const schedule = appointments.map(appointment => {
     const interview = getInterview(state, appointment.interview);
     const interviewers = getInterviewersForDay(state, state.day);
