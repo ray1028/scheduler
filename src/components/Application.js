@@ -37,10 +37,8 @@ export default function Application(props) {
   }
 
   const cancelInterview = id => {
-    const appointment = {
-      ...state.appointments[id],
-      interview: null
-    };
+    const appointment = state.appointments[id];
+    const newApp = {...appointment, interview: null};
 
     // this is replacing appointments with one appointment; TERRIBLE MISTAKE
     // setState({
@@ -51,7 +49,7 @@ export default function Application(props) {
 
     const appointments = {
       ...state.appointments,
-      [id]: appointment
+      [id]: newApp
     };
 
     setState({
