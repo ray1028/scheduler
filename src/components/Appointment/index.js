@@ -5,16 +5,15 @@ import Empty from "../Appointment/Empty";
 import Show from "../Appointment/Show";
 import useVisualMode from "../../hooks/useVisualMode";
 import Form from "./Form";
-import {
-  getAppointmentsForDay,
-  getInterview,
-  getInterviewersForDay
-} from "helpers/selectors";
+import Status from "./Status";
+
+const axios = require('axios');
 
 const Appointment = props => {
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
+  const SAVE = "SAVE";
 
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
@@ -29,13 +28,22 @@ const Appointment = props => {
   };
 
   const save = (name, interviewer) => {
+
     const interview = {
       student: name,
       interviewer
     };
 
-    props.bookInterview(props.id, interview);
-  
+    transition(SAVE);
+    return axios.put(`http://localhost:8001/api/appointments/${props.id}`, {
+      interview
+    }).then(resp => {
+      if(resp.status >= 200 && resp.status < 300){
+         props.bookInterview(props.id, interview);
+         transition(SHOW);
+      }
+    }).catch(err => console.log('error while updating appointment - ' , err))
+
   }
 
   return (
@@ -51,6 +59,9 @@ const Appointment = props => {
       {mode === CREATE && (
         <Form interviewers={props.interviewers} onCancel={onCancel} onSave={save}/>
       )}
+      {mode === SAVE && (
+        <Status message='Saving Appointment...'/>
+      )}  
     </article>
   );
 };

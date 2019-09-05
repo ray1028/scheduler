@@ -16,6 +16,7 @@ export default function Application(props) {
   });
 
   function bookInterview(id, interview){
+
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -26,21 +27,21 @@ export default function Application(props) {
       [id]: appointment
     };
 
-    // setState({
-    //   ...state,
-    //   appointments
-    // });
+    setState({
+      ...state,
+      appointments
+    });
 
-    axios.put(`http://localhost:8001/api/appointments/${id}`, {
-      interview
-    }).then(resp => {
-      if(resp.status >= 200 && resp.status < 300){
-        setState({
-          ...state,
-          appointments
-        });
-      }
-    }).catch(err => console.log('error while updating appointment - ' , err))
+    // return axios.put(`http://localhost:8001/api/appointments/${id}`, {
+    //   interview
+    // }).then(resp => {
+    //   if(resp.status >= 200 && resp.status < 300){
+    //     setState({
+    //       ...state,
+    //       appointments
+    //     });
+    //   }
+    // }).catch(err => console.log('error while updating appointment - ' , err))
   }
 
   const setDay = day => setState({ ...state, day });
@@ -61,7 +62,7 @@ export default function Application(props) {
           interviewers: all[2].data
         }));
       })
-      // .catch(err => console.log("Error occurs while fetching data ", err));
+      .catch(err => console.log("Error occurs while fetching data ", err));
   }, []);
 
   const appointments = getAppointmentsForDay(state, state.day);

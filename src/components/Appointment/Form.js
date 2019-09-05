@@ -32,7 +32,7 @@ const Form = props => {
             type="text"
             placeholder="Enter Student Name"
             value={name}
-            onChange={handleChange}
+            onChange={e => handleChange(e)}
             /*
           This must be a controlled component
         */
