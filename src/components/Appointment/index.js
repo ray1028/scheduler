@@ -15,6 +15,8 @@ const Appointment = props => {
   const CREATE = "CREATE";
   const SAVE = "SAVE";
 
+  const DELETE = "DELETE";
+
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
@@ -27,6 +29,20 @@ const Appointment = props => {
     back();
   };
 
+  const deleteAppt = () => {
+    props.cancelInterview(props.id);
+
+    transition(DELETE);
+    axios.delete(`http://localhost:8001/api/appointments/${props.id}`, {
+    }).then(resp => {
+      if(resp.status >= 200 && resp.status < 300){
+        console.log('successfully updated interview to null');
+        transition(EMPTY);
+      }
+    }).catch(err => 'something went wrong while deleting interview - ' + err);
+  }
+
+
   const save = (name, interviewer) => {
 
     const interview = {
@@ -35,7 +51,7 @@ const Appointment = props => {
     };
 
     transition(SAVE);
-    return axios.put(`http://localhost:8001/api/appointments/${props.id}`, {
+    axios.put(`http://localhost:8001/api/appointments/${props.id}`, {
       interview
     }).then(resp => {
       if(resp.status >= 200 && resp.status < 300){
@@ -46,22 +62,27 @@ const Appointment = props => {
 
   }
 
+
   return (
     <article className="appointment">
       <Header time={props.time} />
-      {mode === EMPTY && <Empty onAdd={onAdd} />}
+      {mode === EMPTY && <Empty onAdd={e => onAdd()} />}
       {mode === SHOW && (
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
+          onDelete={deleteAppt}
         />
       )}
       {mode === CREATE && (
         <Form interviewers={props.interviewers} onCancel={onCancel} onSave={save}/>
       )}
       {mode === SAVE && (
-        <Status message='Saving Appointment...'/>
+        <Status message='Saving'/>
       )}  
+      {mode === DELETE && (
+        <Status message='Deleting'/>
+      )}
     </article>
   );
 };
