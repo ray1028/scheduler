@@ -1,6 +1,8 @@
 import { useReducer, useEffect } from "react";
 const axios = require("axios");
 
+const REACT_APP_WEBSOCKET_URL = process.env.REACT_APP_WEBSOCKET_URL;
+
 const calculateSpot = state => {
   const newDays = state.days.map(day => {
     const spots = day.appointments
@@ -8,8 +10,26 @@ const calculateSpot = state => {
       .reduce((sum, curr) => sum + curr, 0);
     return { ...day, spots };
   });
-  return newDays;
+  return {...state, days: newDays};
 };
+const updAppointments = (state, wsData) => {
+  const [key, oldAppt] = Object.entries(state.appointments).find(([k, v]) => v.id === wsData.id);
+  console.log('check this',key, oldAppt);
+  const newAppts = {...state.appointments, [key]: {...oldAppt, interview: wsData.interview}}
+
+  return {...state, appointments: newAppts};
+};
+
+// const updAppointments = (state, wsData) => {
+//   const newAppts = Object.values(state.appointments).map(appt => {
+//     if(appt.id === wsData.id){
+//       return {...appt, interview: wsData.interview};
+//     } else {
+//       return appt;
+//     }
+//   });
+//   return newAppts;
+// };
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -18,10 +38,11 @@ const reducer = (state, action) => {
     case "setDays":
       return { ...state, days: action.value };
     case "setAppointments":
-      const appointDays = { ...state, appointments: action.value };
-      return { ...appointDays, days: calculateSpot(appointDays) };
+      return calculateSpot({ ...state, appointments: action.value });
     case "setInterviewers":
       return { ...state, interviewers: action.value };
+    case "SET_INTERVIEW":
+      return calculateSpot(updAppointments(state, action.value));
     default:
       throw new Error(
         `Tried to reduce with unsupported action type: ${action.type}`
@@ -37,7 +58,28 @@ const useApplicationData = () => {
     interviewers: {}
   });
 
+  const connectWebSocket = WS_URL => {
+    const webSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+    const readyState = webSocket.readyState;
+    if (readyState === 0) {
+      console.log("Websocket connection is establish WASUP");
+    }
+    webSocket.onopen = () => {
+      webSocket.send("ping");
+    };
+
+    webSocket.onmessage = event => {
+      const respObj = JSON.parse(event.data);
+      console.log(respObj);
+      if (respObj.type === "SET_INTERVIEW") {
+        dispatch({ type: "SET_INTERVIEW", value: respObj});
+      }
+    };
+  };
+
   useEffect(() => {
+    connectWebSocket(REACT_APP_WEBSOCKET_URL);
+
     Promise.all([
       Promise.resolve(axios.get("http://localhost:8001/api/days")),
       Promise.resolve(axios.get("http://localhost:8001/api/appointments")),

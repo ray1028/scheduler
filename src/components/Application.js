@@ -10,8 +10,9 @@ import {
 
 import useApplicationData, {
 } from "../hooks/useApplicationData";
-
+let refreshCount = 0;
 export default function Application(props) {
+  console.log(++refreshCount);
   const {
     state,
     dispatch,
