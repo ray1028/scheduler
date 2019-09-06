@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "components/DayListItem.scss";
 const classNames = require("classnames");
 
@@ -17,7 +17,7 @@ export default function DayListItem(props) {
   };
 
   return (
-    <li className={dayClass} onClick={() => props.setDay(props.name)}>
+    <li className={dayClass} onClick={() => props.dispatch({type:"setDay", value:props.name})}>
       <h2 className="text--regular">{props.name}</h2>
       <h3 className="text--light">{formatSpots(props.spots)}</h3>
     </li>

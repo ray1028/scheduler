@@ -9,8 +9,10 @@ const getAppointmentsForDay = (state, day) => {
     if (ele.name === day) {
       ele.appointments.map(appt => {
         result.push(Object.values(state.appointments).find(i => i.id === appt));
+        return true;
       });
     }
+    return true;
   });
 
   return result;
@@ -40,8 +42,10 @@ const getInterviewersForDay = (state, day) => {
     if (ele.name === day) {
       ele.interviewers.map(interviewer => {
         result.push(Object.values(state.interviewers).find(i => i.id === interviewer));
+        return true;
       });
     }
+    return true;
   });
 
   return result;
