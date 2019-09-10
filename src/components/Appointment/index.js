@@ -38,7 +38,6 @@ const Appointment = props => {
   };
 
   const onEdit = () => {
-    console.log("in on edit -", props.interview);
     transition(EDIT);
   };
 
@@ -55,7 +54,6 @@ const Appointment = props => {
       })
       .catch(err => {
         transition(ERROR_SAVE, true);
-        console.log("something went wrong while deleting interview - " + err);
       });
   };
 
@@ -82,9 +80,7 @@ const Appointment = props => {
         }
       })
       .catch(err => {
-        console.log("err now before calling saving");
         transition(ERROR_DELETE, true);
-        console.log("something went wrong while saving interview - " + err);
       });
   };
 

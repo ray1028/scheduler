@@ -1,5 +1,6 @@
 import React from "react";
 import "components/DayListItem.scss";
+import { SET_DAY } from "reducers/application";
 const classNames = require("classnames");
 
 export default function DayListItem(props) {
@@ -19,7 +20,7 @@ export default function DayListItem(props) {
   return (
     <li 
       className={dayClass} 
-      onClick={() => props.dispatch({type:"setDay", value:props.name})}
+      onClick={() => props.dispatch({type:SET_DAY, value:props.name})}
       data-testid="day">
       <h2 className="text--regular">{props.name}</h2>
       <h3 className="text--light">{formatSpots(props.spots)}</h3>
