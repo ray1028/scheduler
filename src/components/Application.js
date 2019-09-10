@@ -7,12 +7,9 @@ import {
   getInterview,
   getInterviewersForDay
 } from "../helpers/selectors";
+import useApplicationData from "../hooks/useApplicationData";
 
-import useApplicationData, {
-} from "../hooks/useApplicationData";
-let refreshCount = 0;
 export default function Application(props) {
-  console.log(++refreshCount);
   const {
     state,
     dispatch,
@@ -28,7 +25,6 @@ export default function Application(props) {
   const appointments = isDataComplete
     ? getAppointmentsForDay(state, state.day)
     : [];
-
 
   const schedule = appointments.map(appointment => {
     const interview = getInterview(state, appointment.interview);

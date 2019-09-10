@@ -6,13 +6,11 @@ const useVisualMode = initial => {
 
   const transition = (newMode, replace = false) => {
     if (!replace) {
-      console.log(newMode);
       const newHistory = [...oldHistory, newMode];
       setHistory(newHistory);
       setMode(newMode);
     } else {
       setMode(prev => (newMode));
-      console.log(newMode);
     }
 
   };
@@ -34,6 +32,7 @@ const useVisualMode = initial => {
 };
 
 export default useVisualMode;
+
 
 
 

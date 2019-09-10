@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import "./styles.scss";
 import Header from "../Appointment/Header";
 import Empty from "../Appointment/Empty";
@@ -8,24 +8,20 @@ import Form from "./Form";
 import Status from "./Status";
 import Confirm from "./Confirm";
 import Error from "./Error";
-
-const axios = require("axios");
+import axios from "axios";
 
 const Appointment = props => {
-
   useEffect(() => {
-    !props.interview ?  transition(EMPTY) : transition(SHOW);
-  },[props.interview]);
+    !props.interview ? transition(EMPTY) : transition(SHOW);
+  }, [props.interview]);
 
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
   const SAVE = "SAVE";
-
   const DELETE = "DELETE";
   const CONFIRM = "CONFIRM";
   const EDIT = "EDIT";
-
   const ERROR_SAVE = "ERROR_SAVE";
   const ERROR_DELETE = "ERROR_DELETE";
 
@@ -93,10 +89,12 @@ const Appointment = props => {
   };
 
   return (
-    <article className="appointment">
+    <article 
+      className="appointment"
+      data-testid="appointment">
       <Header time={props.time} />
       {(mode === EMPTY || !props.interview) && <Empty onAdd={e => onAdd()} />}
-      {(mode === SHOW && props.interview) && (
+      {mode === SHOW && props.interview && (
         <Show
           student={props.interview ? props.interview.student : null}
           interviewer={props.interview ? props.interview.interviewer : null}
