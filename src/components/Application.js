@@ -26,7 +26,7 @@ export default function Application(props) {
     ? getAppointmentsForDay(state, state.day)
     : [];
 
-  const schedule = appointments.map(appointment => {
+  let schedule = appointments.map(appointment => {
     const interview = getInterview(state, appointment.interview);
     const interviewers = getInterviewersForDay(state, state.day);
 
@@ -42,6 +42,13 @@ export default function Application(props) {
       />
     );
   });
+
+  schedule.push(   
+    <Appointment 
+    key='last'
+    time='5pm'
+    />   
+  )
 
   return (
     <main className="layout">
