@@ -1,7 +1,6 @@
 import { useReducer, useEffect } from "react";
-import axios from 'axios';
+import axios from "axios";
 import reducer, {
-  SET_DAY,
   SET_APPLICATION_DATA,
   SET_INTERVIEW,
   SET_APPOINTMENTS
@@ -18,7 +17,6 @@ const useApplicationData = () => {
   });
 
   const connectWebSocket = WS_URL => {
-    // const webSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
     const webSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
     const readyState = webSocket.readyState;
     if (readyState === 0) {
@@ -47,9 +45,6 @@ const useApplicationData = () => {
     ])
       .then(all => {
         dispatch({ type: SET_APPLICATION_DATA, value: all });
-        // dispatch({ type: "setDays", value: all[0].data });
-        // dispatch({ type: "setAppointments", value: all[1].data });
-        // dispatch({ type: "setInterviewers", value: all[2].data });
         return true;
       })
       .catch(err => console.log("Error occurs while fetching data ", err));

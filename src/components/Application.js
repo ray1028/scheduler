@@ -43,12 +43,7 @@ export default function Application(props) {
     );
   });
 
-  schedule.push(   
-    <Appointment 
-    key='last'
-    time='5pm'
-    />   
-  )
+  schedule.push(<Appointment key="last" time="5pm" />);
 
   return (
     <main className="layout">

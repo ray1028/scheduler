@@ -11,9 +11,6 @@ import Error from "./Error";
 import axios from "axios";
 
 const Appointment = props => {
-  useEffect(() => {
-    !props.interview ? transition(EMPTY) : transition(SHOW);
-  }, [props.interview]);
 
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
@@ -28,6 +25,10 @@ const Appointment = props => {
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
+
+  useEffect(() => {
+    !props.interview ? transition(EMPTY) : transition(SHOW);
+  }, [props.interview]);
 
   const onAdd = () => {
     transition(CREATE);

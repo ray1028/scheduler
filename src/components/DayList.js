@@ -9,7 +9,6 @@ const DayList = props => {
       spots={item.spots}
       selected={item.name === props.day}
       dispatch={props.dispatch}
-      // setDay={props.setDay}
     />
   ));
   return <ul>{dayListItems}</ul>;

@@ -29,8 +29,7 @@ describe("appointment", () => {
   it("should cancel an interview", () => {
     cy.get(".appointment__card").trigger("mouseover");
     cy.get("[alt=Delete]").click({ force: true });
-    cy.contains('Confirm').click();
-    cy.contains(".appointment__card--show", "Archie Cohen")
-    .should("not.exist");
-  })
+    cy.contains("Confirm").click();
+    cy.contains(".appointment__card--show", "Archie Cohen").should("not.exist");
+  });
 });
