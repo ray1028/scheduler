@@ -16,6 +16,7 @@ const useApplicationData = () => {
     interviewers: {}
   });
 
+  // helper function to coonnect to websocket to provide real time response from scheduler
   const connectWebSocket = WS_URL => {
     const webSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
     const readyState = webSocket.readyState;
@@ -35,6 +36,7 @@ const useApplicationData = () => {
     };
   };
 
+  // hooks for fetching data from API servers
   useEffect(() => {
     connectWebSocket(REACT_APP_WEBSOCKET_URL);
 
@@ -49,7 +51,7 @@ const useApplicationData = () => {
       })
       .catch(err => console.log("Error occurs while fetching data ", err));
   }, []);
-
+  
   const bookInterview = (id, interview) => {
     const appointment = {
       ...state.appointments[id],

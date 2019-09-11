@@ -12,6 +12,7 @@ import axios from "axios";
 
 const Appointment = props => {
 
+  // Constant variables for visual loading purpose. Eg. "SAVE" mode will show a loader component
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
@@ -26,6 +27,7 @@ const Appointment = props => {
     props.interview ? SHOW : EMPTY
   );
 
+  // Hooks to initialize the page and show booked interview
   useEffect(() => {
     !props.interview ? transition(EMPTY) : transition(SHOW);
   }, [props.interview]);
@@ -42,6 +44,7 @@ const Appointment = props => {
     transition(EDIT);
   };
 
+  // Helper function to delete an interview appointment and synchronize the api server and system internal state
   const confirmDeleteAppt = () => {
     transition(DELETE, true);
     axios
@@ -62,6 +65,7 @@ const Appointment = props => {
     transition(CONFIRM);
   };
 
+  // Helper function to save on booked interview and synchronize both server and program internal state
   const save = (name, interviewer) => {
     const interview = {
       student: name,

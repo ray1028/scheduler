@@ -17,6 +17,7 @@ export default function Application(props) {
     cancelInterview
   } = useApplicationData();
 
+  // Helper function to determined if we have all the data back from API and after components re-render
   const isDataComplete =
     state &&
     state.days &&

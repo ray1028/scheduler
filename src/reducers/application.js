@@ -3,6 +3,8 @@ export const SET_APPLICATION_DATA = 2;
 export const SET_INTERVIEW = 3;
 export const SET_APPOINTMENTS = 4;
 
+// Function to calculate the spot remaining for interview the day. It 
+// keeps application in sync accross devices
 const calculateSpot = state => {
   const newDays = state.days.map(day => {
     const spots = day.appointments
@@ -12,6 +14,9 @@ const calculateSpot = state => {
   });
   return { ...state, days: newDays };
 };
+
+// Function to update an interview update/delete. It 
+// keeps application data in sync accross devices
 const updAppointments = (state, wsData) => {
   const [key, oldAppt] = Object.entries(state.appointments).find(
     ([k, v]) => v.id === wsData.id
