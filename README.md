@@ -1,13 +1,13 @@
 # Interview Scheduler Dashboard
 
-##screenshot
+# Screenshot
 !["screenshot"](https://github.com/ray1028/scheduler/blob/master/docs/scheduler-1.png)
 
 !["screenshot"](https://github.com/ray1028/scheduler/blob/master/docs/scheduler-2.png)
 
 !["screenshot"](https://github.com/ray1028/scheduler/blob/master/docs/scheduler-3.png)
 
-# Functional Specs
+## Functional Specs
 Development focuses on a single page application (SPA) called Interview Scheduler, built using React.
 
 Data is persisted by the API server using a PostgreSQL database.
@@ -15,7 +15,7 @@ The client application communicates with an API server over HTTP, using the JSON
 
 Jest tests are used through the development of the project.
 
-#Behavioural Requirements
+## Behavioural Requirements
 Interviews can be booked between Monday and Friday.
 
 A user can switch between weekdays.
@@ -42,7 +42,7 @@ When the user presses the close button of the error they are returned to the For
 
 The application makes API requests to load and persist data. We do not lose data after a browser refresh.
 
-#Technical Specifications
+## Technical Specifications
 React
 Webpack, Babel
 Axios, WebSockets
@@ -52,7 +52,7 @@ The Scheduler client application created using Create React App. Express is the 
 
 Both servers run concurrently; requests are proxied from the Webpack development server to the API server.
 
-#Stretch Specifications
+## Stretch Specifications
 The client application communicates with a WebSocket server.
 
 When a user books or cancels an interview, all connected users see the update in their browser.
