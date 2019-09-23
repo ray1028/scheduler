@@ -5,28 +5,23 @@ const getAppointmentsForDay = (state, day) => {
     return [];
   }
 
-  state.days.map(ele => {
-    if (ele.name === day) {
-      ele.appointments.map(appt => {
-        result.push(Object.values(state.appointments).find(i => i.id === appt));
-        return true;
-      });
-    }
-    return true;
-  });
+  const dayLookup = state.days.find(d => d.name === day);
+  const dayAppointments = Object.values(state.appointments).filter(appt =>
+    dayLookup.appointments.includes(appt.id)
+  );
 
-  return result;
+  return dayAppointments;
 };
 
 const getInterview = (state, interview) => {
   let result = {};
 
-  if(!interview) return null;
+  if (!interview) return null;
 
   result = {
-    "student": interview.student,
-    "interviewer" : state.interviewers[interview.interviewer] 
-  }
+    student: interview.student,
+    interviewer: state.interviewers[interview.interviewer]
+  };
 
   return result;
 };
@@ -41,7 +36,9 @@ const getInterviewersForDay = (state, day) => {
   state.days.map(ele => {
     if (ele.name === day) {
       ele.interviewers.map(interviewer => {
-        result.push(Object.values(state.interviewers).find(i => i.id === interviewer));
+        result.push(
+          Object.values(state.interviewers).find(i => i.id === interviewer)
+        );
         return true;
       });
     }
@@ -49,8 +46,6 @@ const getInterviewersForDay = (state, day) => {
   });
 
   return result;
-} 
-
-
+};
 
 export { getAppointmentsForDay, getInterview, getInterviewersForDay };

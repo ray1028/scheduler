@@ -3,44 +3,46 @@ import InterviewerList from "../InterviewerList";
 import Button from "../Button";
 
 const Form = props => {
-  const[name, setName] = useState(props.name || '')
-  const[interviewer, setInterviewer] = useState(props.interviewer || null)
+  const [name, setName] = useState(props.name || "");
+  const [interviewer, setInterviewer] = useState(props.interviewer || null);
   const [error, setError] = useState("");
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     setName(event.target.value);
-  }
+  };
 
   const reset = () => {
-    setName('');
+    setName("");
     setInterviewer(null);
-  }
+  };
 
   const cancel = () => {
     reset();
     props.onCancel();
-  }
+  };
 
   const validate = () => {
-    if(name === ""){
+    if (!name) {
       setError("Student name cannot be blank");
       return;
-    } 
-    /* reseting if theres previous error showing */
-    if(error !== ''){
-      setError('');
     }
+    /* reseting if theres previous error showing */
+    if (error !== "") {
+      setError("");
+    }
+
+    if (!interviewer) {
+      setError("Please select an interviewer");
+      return;
+    }
+
     props.onSave(name, interviewer);
-  }
-
-  
-
+  };
 
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
-        <form autoComplete="off"
-          onSubmit={event => event.preventDefault()}>
+        <form autoComplete="off" onSubmit={event => event.preventDefault()}>
           <input
             className="appointment__create-input text--semi-bold"
             name="name"
@@ -53,7 +55,9 @@ const Form = props => {
           This must be a controlled component
         */
           />
-          {error && <section className="appointment__validation">{error}</section>}
+          {error && (
+            <section className="appointment__validation">{error}</section>
+          )}
         </form>
         <InterviewerList
           interviewers={props.interviewers}
@@ -63,8 +67,12 @@ const Form = props => {
       </section>
       <section className="appointment__card-right">
         <section className="appointment__actions">
-          <Button danger onClick={cancel}>Cancel</Button>
-          <Button confirm onClick={() => validate()}>Save</Button>
+          <Button danger onClick={cancel}>
+            Cancel
+          </Button>
+          <Button confirm onClick={() => validate()}>
+            Save
+          </Button>
         </section>
       </section>
     </main>
